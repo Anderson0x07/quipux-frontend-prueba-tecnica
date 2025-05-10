@@ -118,7 +118,7 @@ export default class PlaylistComponent implements OnInit {
         this.formPlaylist.reset();
       },
       error: (error) => {
-        this.messageService.add({ severity: 'error', summary: 'Error', detail: 'No se pudo crear la playlist' });
+        this.messageService.add({ severity: 'error', summary: 'Error', detail: error.error.message });
       }
     });
     
