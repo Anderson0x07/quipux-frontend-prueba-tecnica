@@ -1,0 +1,55 @@
+<div class="min-h-screen flex items-center justify-center bg-gray-100">
+    <div class="bg-white p-8 rounded-2xl shadow-lg w-full max-w-md">
+        <form [formGroup]="formRegister">
+            <h2 class="text-2xl font-bold text-center text-gray-800 mb-6">Registro de usuario</h2>
+
+            <div class="space-y-4">
+                
+
+                <div>
+                    <label class="block text-gray-700 font-medium">Nombre Completo *</label>
+                    <input appNotificadorErrorInput
+                        type="text"
+                        class="w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                        placeholder="Ingresa tu nombre"
+                        formControlName="completeName"
+                    />
+
+                </div>
+
+                <div>
+                    <label class="block text-gray-700 font-medium">Correo Electrónico *</label>
+                    <input appNotificadorErrorInput
+                        type="email"
+                        class="w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                        placeholder="Ingresa tu correo"
+                        formControlName="email"
+
+                    />
+
+                </div>
+                <div> 
+                    <label class="block text-gray-700 font-medium">Contraseña *</label>
+                    <input appNotificadorErrorInput [mensajesErrorSobrescritura]="{error: passwordError}"
+                        type="password"
+                        class="w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                        placeholder="Ingresa tu contraseña"
+                        formControlName="password"
+
+                    />
+                </div>
+
+                <button
+                    (click)="onRegister()" [disabled]="formRegister.invalid"
+                    class="w-full bg-blue-500 text-white py-3 rounded-lg hover:bg-blue-600 transition disabled:opacity-50 disabled:hover:bg-blue-500"
+                >
+                    Registro
+                </button>
+            </div>
+
+        </form>
+        <p class="text-center text-gray-600 mt-4">
+            ¿Ya tienes cuenta? <button (click)="goToLogin()" class="text-blue-500 hover:underline">Inicia sesión</button>
+        </p>
+    </div>
+</div>

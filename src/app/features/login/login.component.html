@@ -1,0 +1,36 @@
+<div class="min-h-screen flex items-center justify-center bg-gray-100">
+    <div class="bg-white p-8 rounded-2xl shadow-lg w-full max-w-md">
+        <form class="space-y-4" [formGroup]="formLogin">
+            <h2 class="text-2xl font-bold text-center text-gray-800 mb-6">Iniciar Sesión</h2>
+
+            <div>
+                <label class="block text-gray-700 font-medium">Email</label>
+                <input appNotificadorErrorInput
+                    type="email"
+                    class="w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    placeholder="Ingresa tu correo"
+                    formControlName="username"
+                />
+            </div>
+            <div>
+                <label class="block text-gray-700 font-medium">Contraseña</label>
+                <input appNotificadorErrorInput [mensajesErrorSobrescritura]="{error: passwordError}"
+                    type="password"
+                    class="w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    placeholder="Ingresa tu contraseña"
+                    formControlName="password"
+
+                />
+            </div>
+            <button
+                (click)="onLogin()" [disabled]="formLogin.invalid"
+                class="w-full bg-blue-500 text-white py-3 rounded-lg hover:bg-blue-600 transition disabled:opacity-50 disabled:hover:bg-blue-500"
+            >
+                Iniciar Sesión
+            </button>
+        </form>
+        <p class="text-center text-gray-600 mt-4">
+            ¿No tienes una cuenta? <button (click)="register()" class="text-blue-500 hover:underline">Regístrate</button>
+        </p>
+    </div>
+</div>
