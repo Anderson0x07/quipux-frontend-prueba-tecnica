@@ -1,0 +1,35 @@
+<div class="flex h-screen bg-gray-100">
+    <div class="w-64 bg-white shadow-md p-5 space-y-6 md:block" [ngClass]="sidebarOpen ? 'block' : 'hidden'">
+        <h1 class="text-2xl font-bold text-gray-700 cursor-pointer" [routerLink]="['/admin/home']">Dashboard</h1>
+        <nav>
+            <ul class="space-y-3 w-full flex flex-col items-start cursor-pointer">
+                
+                <li [routerLink]="['/admin/playlist']" routerLinkActive="bg-white rounded-xl shadow-lg"
+                    class="w-full p-3 text-gray-700 rounded hover:bg-gray-200">
+                    📂 Playlist
+                </li>
+                <li [routerLink]="['/admin/canciones']" routerLinkActive="bg-white rounded-xl shadow-lg"
+                    class="w-full p-3 text-gray-700 rounded hover:bg-gray-200">
+                    🎵 Canciones
+                </li>
+            </ul>
+        </nav>
+    </div>
+
+    <div class="flex-1 flex flex-col">
+        <header class="bg-white shadow p-4 flex justify-between items-center">
+            <button class="md:hidden" (click)="sidebarOpen = !sidebarOpen">
+                <div class="w-6 h-6"><i class="text-xl pi pi-align-justify"></i></div>
+            </button>
+            <h2 class="text-xl font-semibold">Bienvenido {{user.completeName}}</h2>
+            <button (click)="onLogout()" class="text-red-500 hover:text-red-700 flex items-center gap-3">
+                <i class="mr-1 text-xl pi pi-power-off"></i>
+                <p>Cerrar Sesión</p>
+            </button>
+        </header>
+
+        <main class="flex-1 p-6">
+            <router-outlet></router-outlet>
+        </main>
+    </div>
+</div>

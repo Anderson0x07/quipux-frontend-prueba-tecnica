@@ -1,0 +1,83 @@
+<section class="text-gray-600 body-font">
+  <div class="container px-5 py-24 mx-auto">
+    <div class="flex flex-wrap w-full mb-20 flex-col items-center text-center">
+      <h1 class="sm:text-3xl text-2xl title-font mb-2 text-gray-900"><span class="font-bold">Nombre de playlist:</span> {{playlistDetail.nombre}}</h1>
+      <p class="lg:w-1/2 w-full leading-relaxed text-gray-500"><span class="font-semibold">Descripción:</span> {{playlistDetail.descripcion}}</p>
+    </div>
+    <div class="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+      @for (item of songs; track $index) {
+
+        <div class="group block overflow-hidden rounded-xl shadow-md">
+          <img
+              src="https://artists.apple.com/assets/artist-og-share-c766a5950ae664ea9073ede99da0df1094ae1a24bee32b86ab9e43e7e02bce2e.jpg"
+              alt=""
+              class="h-[200px] w-full object-cover transition duration-500 group-hover:scale-105"
+          />
+
+          <div class="relative bg-white pt-3 px-2 pb-2">
+              <h3 class="text-xs text-gray-700 group-hover:underline group-hover:underline-offset-4">
+                  {{item.titulo}}
+              </h3>
+
+              <div class="flex items-center justify-between gap-3 mt-2 ">
+                  <p class="flex flex-col gap-1 tracking-wider text-gray-900">
+                      <span> {{item.artista}}</span>
+                      <span>Genero:  {{item.genero}} </span>
+                  </p>
+                  <p class="flex flex-col items-end gap-1 text-blue-500">
+                      <span> {{item.album}} </span>
+                      <span>Año: {{item.anno}} </span>
+                  </p>
+              </div>
+          </div>
+        </div>
+      }
+    </div>
+    <button (click)="openModalAgregarCancion = true"
+      class="flex mx-auto mt-16 text-white bg-indigo-500 border-0 py-2 px-8 focus:outline-none hover:bg-indigo-600 rounded text-lg">
+      Agregar canción
+    </button>
+  </div>
+</section>
+
+<!--Modal-->
+
+@if(openModalAgregarCancion) {
+
+<div class="fixed inset-0 z-50 grid place-content-center bg-black/50 p-4" role="dialog" aria-modal="true"
+  aria-labelledby="modalTitle">
+  <div class="w-full max-w-md rounded-lg bg-white p-6 shadow-lg">
+    <h2 id="modalTitle" class="text-xl font-bold text-gray-900 sm:text-2xl">Agregar canción</h2>
+
+    <div class="my-4">
+
+      <label for="Headline">
+        <span class="text-sm font-medium text-gray-700">Seleccionar canción *</span>
+
+        <select [(ngModel)]="cancionSeleccionada" name="Headline" id="Headline"
+          class="w-full p-3 border rounded-lg border-gray-300 shadow-sm sm:text-sm">
+
+          <option value="">Seleccionar</option>
+          @for (item of songsToAdd; track $index) {
+            <option value="{{item.id}}">{{item.titulo}}</option>
+          }
+        </select>
+      </label>
+
+    </div>
+
+
+    <footer class="mt-6 flex justify-end gap-2">
+      <button (click)="openModalAgregarCancion = false"
+        class="rounded bg-gray-100 px-4 py-2 text-sm font-medium text-gray-700 transition-colors hover:bg-gray-200">
+        Cancelar
+      </button>
+
+      <button (click)="agregarCancion()" [disabled]="!cancionSeleccionada"
+        class="w-full bg-blue-500 text-white py-3 rounded-lg hover:bg-blue-600 transition disabled:opacity-50 disabled:hover:bg-blue-500">
+        Aceptar
+      </button>
+    </footer>
+  </div>
+</div>
+}

@@ -1,0 +1,124 @@
+<section>
+  <div class="mx-auto max-w-screen-xl px-4 py-8 sm:px-6 sm:py-12 lg:px-8">
+    <header>
+        <div class="flex items-center justify-between gap-4">
+            <h2 class="text-xl font-bold text-gray-900 sm:text-3xl">Lista de Canciones</h2>
+            <button (click)="openModalCrear = true" class="inline-flex text-white bg-indigo-500 border-0 py-2 px-6 focus:outline-none hover:bg-indigo-600 rounded text-lg">Crear</button>
+
+        </div>
+
+      <p class="mt-4 max-w-2xl text-gray-500">
+        Podemos ver todas las canciones que tenemos en la base de datos, puedes crear una nueva canción para luego ser utilizada en las playlist.
+      </p>
+    </header>
+
+    <ul class="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+
+        @for (item of songs; track $index) {
+            <li>
+                <div class="group block overflow-hidden rounded-xl shadow-md">
+                    <img
+                        src="https://artists.apple.com/assets/artist-og-share-c766a5950ae664ea9073ede99da0df1094ae1a24bee32b86ab9e43e7e02bce2e.jpg"
+                        alt=""
+                        class="h-[200px] w-full object-cover transition duration-500 group-hover:scale-105"
+                    />
+            
+                    <div class="relative bg-white pt-3 px-2 pb-2">
+                        <h3 class="text-xs text-gray-700 group-hover:underline group-hover:underline-offset-4">
+                            {{item.titulo}}
+                        </h3>
+            
+                        <div class="flex items-center justify-between gap-3 mt-2 ">
+                            <p class="flex flex-col gap-1 tracking-wider text-gray-900">
+                                <span> {{item.artista}}</span>
+                                <span>Genero:  {{item.genero}} </span>
+                            </p>
+                            <p class="flex flex-col items-end gap-1 text-blue-500">
+                                <span> {{item.album}} </span>
+                                <span>Año: {{item.anno}} </span>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </li>
+
+        }
+
+      
+    </ul>
+  </div>
+</section>
+
+<!--Modal-->
+@if(openModalCrear) {
+
+    <div
+      class="fixed inset-0 z-50 grid place-content-center bg-black/50 p-4"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="modalTitle"
+    >
+      <div class="max-w-lg w-full sm:w-[400px] rounded-lg bg-white p-6 shadow-lg">
+        <h2 id="modalTitle" class="text-xl font-bold text-gray-900 sm:text-2xl">Crear canción</h2>
+    
+        <div class="mt-4">
+          <form [formGroup]="formSong">
+            <div class="mb-4">
+              <label for="titulo" class="block text-sm font-medium text-gray-700">Titulo *</label>
+              <input id="titulo" formControlName="titulo" type="text" placeholder="Titulo de la canción"
+                class="w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+            </div>
+    
+            <div class="mb-4">
+              <label for="artista" class="block text-sm font-medium text-gray-700">Artista *</label>
+              <input id="artista" formControlName="artista" type="text" placeholder="Artista de la canción"
+                class="w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+            </div>
+
+            <div class="mb-4">
+              <label for="album" class="block text-sm font-medium text-gray-700">Album *</label>
+              <input id="album" formControlName="album" type="text" placeholder="Album de la canción"
+                class="w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+            </div>
+
+            <div class="mb-4">
+              <label for="anno" class="block text-sm font-medium text-gray-700">Año *</label>
+              <input id="anno" formControlName="anno" type="text" placeholder="Año de la canción"
+                class="w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+            </div>
+
+            <div class="my-4">
+
+              <label for="genero">
+                <span class="text-sm font-medium text-gray-700">Seleccionar genero * </span>
+
+                <select formControlName="genero" name="genero" id="genero"
+                    class="p-3 border rounded-lg w-full border-gray-300 shadow-sm sm:text-sm">
+
+                    <option value="">Seleccionar</option>
+                    @for (item of generos; track $index) {
+                        <option value="{{item}}">{{item}}</option>
+                    }
+                </select>
+              </label>
+
+            </div>
+            
+          </form>
+        </div>
+    
+        <footer class="mt-6 flex justify-end gap-2">
+          <button (click)="openModalCrear = false"
+            class="rounded bg-gray-100 px-4 py-2 text-sm font-medium text-gray-700 transition-colors hover:bg-gray-200"
+          >
+            Cancelar
+          </button>
+    
+          <button (click)="onCreateSong()" [disabled]="formSong.invalid"
+            class="w-full bg-blue-500 text-white py-3 rounded-lg hover:bg-blue-600 transition disabled:opacity-50 disabled:hover:bg-blue-500">
+            Aceptar
+          </button>
+        </footer>
+      </div>
+    </div>
+}

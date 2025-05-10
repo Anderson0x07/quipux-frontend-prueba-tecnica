@@ -1,0 +1,92 @@
+<section class="text-gray-600 body-font">
+  <div class="container px-5 mx-auto">
+    <div class="flex items-center justify-between w-full mb-4">
+      <h1 class="sm:text-3xl text-2xl font-medium title-font text-gray-900">Tus playlist</h1>
+      <button (click)="openModalCrear = true" class="inline-flex text-white bg-indigo-500 border-0 py-2 px-6 focus:outline-none hover:bg-indigo-600 rounded text-lg">Crear</button>
+    </div>
+    <p class="lg:w-2/3 leading-relaxed text-base mb-6">A continuación puedes ver todas tus playlist y sus canciones. Puedes añadir, editar o eliminar canciones de cada playlist. 
+      <br>¡Disfruta de tu música!
+    </p>
+    <div class="flex flex-wrap -m-2">
+
+        @for (item of playlist; track $index) {
+            <div (click)="openDetail(item)" class="p-2 lg:w-1/3 md:w-1/2 w-full">
+                <div class="h-full flex items-center border-gray-200 border p-4 rounded-lg">
+                    <img alt="team" class="w-16 h-16 bg-gray-100 object-cover object-center flex-shrink-0 rounded-full mr-4" 
+                        [src]="$index % 2 == 0 ? 'https://cdn-icons-png.freepik.com/256/2402/2402463.png?semt=ais_hybrid' : 'https://images.icon-icons.com/1880/PNG/512/iconfinder-music-4341309_120542.png'">
+                    <div class="flex-grow">
+                        <h2 class="text-gray-900 title-font font-medium">{{item.nombre}}</h2>
+                        <p class="text-gray-500">{{item.descripcion}}</p>
+                    </div>
+                    <button (click)="eliminarPlaylist(item)" class="rounded-full p-3 border border-red-500 w-10 h-10 flex justify-center"><i class="pi pi-trash"></i></button>
+                </div>
+            </div>
+        } @empty {
+          <h2 class="w-full p-4 rounded-xl border text-center text-2xl font-semibold">No hay playlist creadas</h2>
+        }
+
+    </div>
+  </div>
+</section>
+
+
+<!--Modal-->
+
+@if(openModalCrear) {
+
+    <div
+      class="fixed inset-0 z-50 grid place-content-center bg-black/50 p-4"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="modalTitle"
+    >
+      <div class="max-w-lg w-full sm:w-[400px] rounded-lg bg-white p-6 shadow-lg">
+        <h2 id="modalTitle" class="text-xl font-bold text-gray-900 sm:text-2xl">Playlist</h2>
+    
+        <div class="mt-4">
+          <form [formGroup]="formPlaylist">
+            <div class="mb-4">
+              <label for="nombre" class="block text-sm font-medium text-gray-700">Nombre</label>
+              <input id="nombre" formControlName="nombre" type="text" placeholder="Nombre de la playlist"
+                class="w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+            </div>
+    
+            <div class="mb-4">
+              <label for="descripcion" class="block text-sm font-medium text-gray-700">Descripción</label>
+              <textarea id="descripcion" formControlName="descripcion" rows="3"
+                class="w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"></textarea>
+            </div>
+            
+            <div class="my-4">
+
+              <label for="Headline">
+                <span class="text-sm font-medium text-gray-700"> Seleccionar canción </span>
+
+                <select formControlName="canciones" name="Headline" id="Headline" multiple
+                  class="w-full p-3 border rounded-lg border-gray-300 shadow-sm sm:text-sm">
+
+                    @for (item of songsToAdd; track $index) {
+                      <option value="{{item.id}}">{{item.titulo}}</option>
+                    }
+                </select>
+              </label>
+
+            </div>
+          </form>
+        </div>
+    
+        <footer class="mt-6 flex justify-end gap-2">
+          <button (click)="openModalCrear = false"
+            class="rounded bg-gray-100 px-4 py-2 text-sm font-medium text-gray-700 transition-colors hover:bg-gray-200"
+          >
+            Cancelar
+          </button>
+    
+          <button (click)="onCreate()" [disabled]="formPlaylist.invalid"
+            class="w-full bg-blue-500 text-white py-3 rounded-lg hover:bg-blue-600 transition disabled:opacity-50 disabled:hover:bg-blue-500">
+            Aceptar
+          </button>
+        </footer>
+      </div>
+    </div>
+}

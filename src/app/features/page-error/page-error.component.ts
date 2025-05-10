@@ -15,12 +15,10 @@ export default class PageErrorComponent {
 
     const authData = sessionStorage.getItem('AUTH');
 
-    debugger
-
     if (authData) {
       const auth = JSON.parse(authData);
       if (auth && auth.email && auth.token) {
-        this.router.navigate(['/admin/inicio']);
+        this.router.navigate(['/admin/home']);
         return;
       }
     }

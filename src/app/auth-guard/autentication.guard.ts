@@ -12,10 +12,6 @@ export class AutenticacionGuard implements CanActivate {
 
         const url = state.url;
 
-        if(url.includes('register') || url.includes('login')) {
-            return valido;
-        }
-
         const auth: LoginResponseDTO | null = this.getAuthData();
 
         if (auth && auth.email && auth.token) {
@@ -33,21 +29,23 @@ export class AutenticacionGuard implements CanActivate {
     
 
     private canActivateUserLogin(url: string): boolean {
-        if (url.includes('login')) {
-            return this.goTo('/admin/inicio');
+        if (url.includes('login') || url.includes('register')) {
+            return this.goTo('/admin/home');
         }
         return true;
     }
 
 
     private canActivateUserNoLogin(url: string): boolean {
-        if (!url.includes('login')) {
+        if (!url.includes('login') && !url.includes('register')) {
             return this.goTo('/login');
         }
+
         return true;
     }
 
     private goTo(url: string): boolean {
+
         this.router.navigate([url]);
         return false;
     }

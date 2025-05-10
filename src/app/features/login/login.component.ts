@@ -53,7 +53,7 @@ export default class LoginComponent implements OnInit {
       next: (response) => {
         this.isLoading = false;
         sessionStorage.setItem('AUTH', JSON.stringify(response));
-        this.router.navigate(['/admin/inicio']);
+        this.router.navigate(['/admin/home']);
       },
       error: (error) => {
         if (error?.error?.message) {
