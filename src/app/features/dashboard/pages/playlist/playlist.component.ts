@@ -37,7 +37,7 @@ export default class PlaylistComponent implements OnInit {
     this.formPlaylist = this.fb.group({
       nombre: ['', [Validators.required]],
       descripcion: ['', [Validators.required]],
-      canciones: ['']
+      canciones: [null]
     });
 
     this.getAllSongs();
@@ -80,24 +80,29 @@ export default class PlaylistComponent implements OnInit {
     this.messageService.clear();
     const {nombre, descripcion, canciones} = this.formPlaylist.value;
 
-    const songs: Array<SongDto> = canciones.map((cancion: number) => {
+    let songs: Array<SongDto> = [];
 
-      const cancionExistente = this.songs.find((s) => s.id == cancion);
-      if (!cancionExistente) {
-        this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Canción no encontrada' });
-        return;
-      }
+    if(canciones) {
 
-
-      return {
-        id: cancionExistente.id,
-        titulo: cancionExistente.titulo,
-        artista: cancionExistente.artista,
-        album: cancionExistente.album,
-        anno: cancionExistente.anno,
-        genero: cancionExistente.genero
-      }
-    });
+      songs = canciones.map((cancion: number) => {
+  
+        const cancionExistente = this.songs.find((s) => s.id == cancion);
+        if (!cancionExistente) {
+          this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Canción no encontrada' });
+          return;
+        }
+  
+  
+        return {
+          id: cancionExistente.id,
+          titulo: cancionExistente.titulo,
+          artista: cancionExistente.artista,
+          album: cancionExistente.album,
+          anno: cancionExistente.anno,
+          genero: cancionExistente.genero
+        }
+      });
+    }
 
     const request: PlaylistDto = {
       nombre: nombre,
